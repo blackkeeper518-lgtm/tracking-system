@@ -1,0 +1,91 @@
+import React, { useState } from 'react';
+
+const StatusBadge = ({ status }) => (
+  <div className="border border-orange-500 bg-black p-2 px-4 rounded-sm shadow-[0_0_15px_rgba(234,88,12,0.4)] animate-pulse mb-6 text-center">
+    <span className="text-orange-500 font-mono tracking-widest uppercase text-sm">
+      {status === 'รับพัสดุแล้ว' ? '>> MISSION ACCOMPLISHED' : '>> SCANNING SECTOR...'}
+    </span>
+  </div>
+);
+
+export default function SingtoStore() {
+  const [phone, setPhone] = useState('');
+  const [shipment, setShipment] = useState(null);
+  const [adminMode, setAdminMode] = useState(false);
+  const [mockData, setMockData] = useState({});
+
+  const handleFileUpload = (file) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target.result;
+      const rows = text.split('\n');
+      const newData = { ...mockData };
+      let count = 0;
+      rows.forEach((row, index) => {
+        if (index === 0) return;
+        const cols = row.split(/\t|,/);
+        if (cols.length > 11) {
+          const tracking = cols[3]?.trim();
+          const customerPhone = cols[11]?.replace(/-/g, '').trim();
+          const status = cols[31]?.trim() || 'กำลังจัดส่ง';
+          if (customerPhone && tracking && tracking.startsWith('TH')) {
+            newData[customerPhone] = { tracking, status };
+            count++;
+          }
+        }
+      });
+      setMockData(newData);
+      alert(`✅ SINGTO STORE: อัปเดต ${count} บ้าน เรียบร้อย!`);
+    };
+    reader.readAsText(file);
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-white font-sans flex flex-col items-center p-6 relative overflow-hidden border-4 border-orange-600/50 rounded-[3.5rem] shadow-[0_0_60px_rgba(234,88,12,0.3)]">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-orange-600 rounded-full opacity-10 blur-[150px] pointer-events-none"></div>
+      
+      {/* 🔐 Admin: Double Click ชื่อร้าน */}
+      <div className="mt-16 mb-12 text-center relative z-10 select-none cursor-pointer" onDoubleClick={() => setAdminMode(!adminMode)}>
+        <h1 className="text-7xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-orange-600 animate-pulse-glow uppercase leading-none">SINGTO STORE</h1>
+        <p className="text-[12px] text-orange-400 uppercase tracking-[0.6em] mt-4 font-bold italic">VIP TRACKING SYSTEM</p>
+      </div>
+
+      <div className="w-full max-w-sm space-y-6 relative z-10 flex-grow">
+        <div className="bg-zinc-900/95 p-7 rounded-[2.5rem] border border-orange-500/20 backdrop-blur-xl shadow-2xl">
+          <input type="tel" placeholder="กรอกเบอร์โทร..." className="w-full bg-black border-2 border-zinc-800 p-6 rounded-3xl text-center text-3xl text-white outline-none focus:border-yellow-400 transition-all" onChange={(e) => setPhone(e.target.value.replace(/-/g, ''))} />
+          <button onClick={() => setShipment(mockData[phone] || null)} className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-black py-6 rounded-3xl text-2xl mt-5 shadow-lg uppercase active:scale-95 transition-all">ค้นหาสถานะ VIP</button>
+        </div>
+
+        <button onClick={() => window.location.href = `https://line.me/ti/p/@singoto-store`} className="w-full bg-[#06C755] text-white py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 border-b-4 border-green-800 shadow-lg active:scale-95 transition-all">
+          <span>ติดต่อแอดมิน (LINE)</span>
+        </button>
+
+        {shipment && (
+          <div className="animate-in zoom-in duration-300 bg-white text-black p-8 rounded-[3.5rem] text-center shadow-2xl border-t-8 border-orange-600 flex flex-col items-center">
+            <StatusBadge status={shipment.status} />
+            <p className="text-3xl font-mono font-black tracking-tighter mb-6">{shipment.tracking}</p>
+            <button onClick={() => window.location.href=`https://www.flashexpress.co.th/tracking/?trackNo=${shipment.tracking}`} className="w-full bg-black text-white py-5 rounded-2xl font-black uppercase">FOLLOW ORDER 🚚</button>
+          </div>
+        )}
+
+        {/* Admin Drop Zone */}
+        {adminMode && (
+          <div className="mt-4 p-10 border-4 border-dashed border-orange-500/30 rounded-[2.5rem] text-center bg-black/40 animate-in slide-in-from-bottom duration-500 shadow-xl" onDrop={(e) => { e.preventDefault(); handleFileUpload(e.dataTransfer.files[0]); }} onDragOver={(e) => e.preventDefault()}>
+              <div className="text-4xl mb-2">🚀</div>
+              <p className="text-[10px] text-orange-400 uppercase font-bold italic tracking-widest">โยนไฟล์ Flash ของ SINGTO ตรงนี้</p>
+          </div>
+        )}
+      </div>
+
+      <p className="mt-auto py-10 text-[9px] text-zinc-800 font-bold tracking-[0.5em] uppercase italic relative z-10">SINGTO STORE SOLAR TECHNOLOGY</p>
+      
+      <style>{`
+        @keyframes pulse-glow {
+          0%, 100% { text-shadow: 0 0 10px rgba(251,191,36,0.6); }
+          50% { text-shadow: 0 0 25px rgba(249,115,22,0.8); }
+        }
+        .animate-pulse-glow { animation: pulse-glow 3s infinite; }
+      `}</style>
+    </div>
+  );
+}

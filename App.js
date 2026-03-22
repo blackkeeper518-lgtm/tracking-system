@@ -70,15 +70,15 @@ export default function SingtoStore() {
             <div className="text-6xl mb-4 animate-bounce">📦</div>
             <p className="text-orange-400 font-bold uppercase tracking-widest mb-2">Master Access</p>
             <p className="text-xs text-zinc-500 mb-8 italic">ลากไฟล์ Flash มาวางตรงนี้</p>
-            <button onClick={() => setIsAdminMode(false)} className="text-xs text-zinc-600 underline uppercase">Back to Customer View</button>
+            <button onClick={() => setIsAdminMode(false)} className="text-xs text-zinc-600 underline uppercase hover:text-orange-500">Back to Customer View</button>
           </div>
         ) : (
           <div className="w-full max-w-sm space-y-6 animate-in fade-in">
             <div className="bg-zinc-900/95 p-7 rounded-[2.5rem] border border-orange-500/20 backdrop-blur-xl shadow-2xl">
-              <input type="tel" placeholder="กรอกเบอร์โทร..." className="w-full bg-black border-2 border-zinc-800 p-6 rounded-3xl text-center text-3xl text-white outline-none focus:border-yellow-400" onChange={(e) => setPhone(e.target.value)} />
-              <button onClick={() => setShipment(mockData[phone.replace(/-/g, '').trim()] || null)} className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-black py-6 rounded-3xl text-2xl mt-5 shadow-lg uppercase">ค้นหาสถานะ VIP</button>
+              <input type="tel" placeholder="กรอกเบอร์โทร..." className="w-full bg-black border-2 border-zinc-800 p-6 rounded-3xl text-center text-3xl text-white outline-none focus:border-yellow-400 transition-all" onChange={(e) => setPhone(e.target.value)} />
+              <button onClick={() => setShipment(mockData[phone.replace(/-/g, '').trim()] || null)} className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-black py-6 rounded-3xl text-2xl mt-5 shadow-lg uppercase active:scale-95 transition-all">ค้นหาสถานะ VIP</button>
             </div>
-            <button onClick={() => window.location.href = 'https://line.me/ti/p/@singoto-store'} className="w-full bg-[#06C755] text-white py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 border-b-4 border-green-800 shadow-lg">ติดต่อแอดมิน (LINE)</button>
+            <button onClick={() => window.location.href = 'https://line.me/ti/p/@singoto-store'} className="w-full bg-[#06C755] text-white py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 border-b-4 border-green-800 shadow-lg active:scale-95">ติดต่อแอดมิน (LINE)</button>
             {shipment && (
               <div className="animate-in zoom-in bg-white text-black p-8 rounded-[3.5rem] text-center shadow-2xl border-t-8 border-orange-600 flex flex-col items-center mt-6">
                 <div className="bg-black text-orange-500 px-4 py-1 rounded text-[10px] font-mono mb-4 animate-pulse uppercase">>> Mission Found</div>
@@ -90,7 +90,7 @@ export default function SingtoStore() {
         )}
       </div>
 
-      <p className="py-10 text-[9px] text-zinc-800 font-bold tracking-[0.5em] uppercase italic relative z-10">SINGTO STORE SOLAR TECHNOLOGY</p>
+      <p className="py-10 text-[9px] text-zinc-800 font-bold tracking-[0.5em] uppercase italic relative z-10 text-center">SINGTO STORE SOLAR TECHNOLOGY</p>
       <style>{`
         @keyframes pulse-glow { 0%, 100% { text-shadow: 0 0 15px rgba(251,191,36,0.5); } 50% { text-shadow: 0 0 30px rgba(249,115,22,0.7); } }
         .animate-pulse-glow { animation: pulse-glow 3s infinite; }

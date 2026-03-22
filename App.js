@@ -15,7 +15,7 @@ export default function SingtoStore() {
 
   const handleAdminAuth = () => {
     if (!isAdminMode) {
-      const pass = prompt("Enter Master Key:");
+      const pass = prompt("ระบบความปลอดภัยสูง (Drakside Only):");
       if (pass === "168") setIsAdminMode(true);
     } else {
       setIsAdminMode(false);
@@ -44,7 +44,7 @@ export default function SingtoStore() {
       });
       localStorage.setItem('singto_data', JSON.stringify(newData));
       setMockData(newData);
-      alert(`✅ DRAKSIDE: อัปเดต ${count} บ้าน เรียบร้อย!`);
+      alert(`✅ อัปเดต ${count} บ้าน เรียบร้อย!`);
     };
     reader.readAsText(file);
   };
@@ -58,43 +58,10 @@ export default function SingtoStore() {
           {isAdminMode ? "ADMIN PANEL" : "SINGTO STORE"}
         </h1>
         <p className="text-[12px] text-orange-400 uppercase tracking-[0.6em] mt-4 font-bold italic">
-          {isAdminMode ? "DRAKSIDE CONTROL" : "VIP TRACKING SYSTEM"}
+          {isAdminMode ? "SECURE BACKEND" : "VIP TRACKING SYSTEM"}
         </p>
       </div>
 
       <div className="flex-grow flex items-center justify-center w-full relative z-10">
         {isAdminMode ? (
-          <div className="w-full max-w-sm p-12 border-4 border-dashed border-orange-500 rounded-[3rem] text-center bg-zinc-900 shadow-2xl animate-in slide-in-from-bottom"
-               onDrop={(e) => { e.preventDefault(); handleFileUpload(e.dataTransfer.files[0]); }}
-               onDragOver={(e) => e.preventDefault()}>
-            <div className="text-6xl mb-4 animate-bounce">📦</div>
-            <p className="text-orange-400 font-bold uppercase tracking-widest mb-2">Master Access</p>
-            <p className="text-xs text-zinc-500 mb-8 italic">ลากไฟล์ Flash มาวางตรงนี้</p>
-            <button onClick={() => setIsAdminMode(false)} className="text-xs text-zinc-600 underline uppercase hover:text-orange-500">Back to Customer View</button>
-          </div>
-        ) : (
-          <div className="w-full max-w-sm space-y-6 animate-in fade-in">
-            <div className="bg-zinc-900/95 p-7 rounded-[2.5rem] border border-orange-500/20 backdrop-blur-xl shadow-2xl">
-              <input type="tel" placeholder="กรอกเบอร์โทร..." className="w-full bg-black border-2 border-zinc-800 p-6 rounded-3xl text-center text-3xl text-white outline-none focus:border-yellow-400 transition-all" onChange={(e) => setPhone(e.target.value)} />
-              <button onClick={() => setShipment(mockData[phone.replace(/-/g, '').trim()] || null)} className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-black py-6 rounded-3xl text-2xl mt-5 shadow-lg uppercase active:scale-95 transition-all">ค้นหาสถานะ VIP</button>
-            </div>
-            <button onClick={() => window.location.href = 'https://line.me/ti/p/@singoto-store'} className="w-full bg-[#06C755] text-white py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 border-b-4 border-green-800 shadow-lg active:scale-95">ติดต่อแอดมิน (LINE)</button>
-            {shipment && (
-              <div className="animate-in zoom-in bg-white text-black p-8 rounded-[3.5rem] text-center shadow-2xl border-t-8 border-orange-600 flex flex-col items-center mt-6">
-                <div className="bg-black text-orange-500 px-4 py-1 rounded text-[10px] font-mono mb-4 animate-pulse uppercase">>> Mission Found</div>
-                <p className="text-3xl font-mono font-black mb-6">{shipment.tracking}</p>
-                <button onClick={() => window.location.href=`https://www.flashexpress.co.th/tracking/?trackNo=${shipment.tracking}`} className="w-full bg-black text-white py-5 rounded-2xl font-black uppercase">FOLLOW ORDER 🚚</button>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      <p className="py-10 text-[9px] text-zinc-800 font-bold tracking-[0.5em] uppercase italic relative z-10 text-center">SINGTO STORE SOLAR TECHNOLOGY</p>
-      <style>{`
-        @keyframes pulse-glow { 0%, 100% { text-shadow: 0 0 15px rgba(251,191,36,0.5); } 50% { text-shadow: 0 0 30px rgba(249,115,22,0.7); } }
-        .animate-pulse-glow { animation: pulse-glow 3s infinite; }
-      `}</style>
-    </div>
-  );
-}
+          <div className="w-full max-w-sm p-12 border-4 border-dashed border-orange-
